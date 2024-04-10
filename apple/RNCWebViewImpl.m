@@ -1488,6 +1488,12 @@ didFinishNavigation:(WKNavigation *)navigation
   if (_onLoadingFinish) {
     _onLoadingFinish([self baseEvent]);
   }
+
+  [_webView.configuration.websiteDataStore.httpCookieStore getAllCookies:^(NSArray* cookies) {
+    for (NSHTTPCookie *cookie in cookies) {
+      [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+  }];
 }
 
 - (void)cookiesDidChangeInCookieStore:(WKHTTPCookieStore *)cookieStore
